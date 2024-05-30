@@ -13,29 +13,27 @@ class ConfirmationForPass extends ConsumerStatefulWidget {
   const ConfirmationForPass({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ConfirmationForPassState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _ConfirmationForPassState();
 }
-
-
-
-
 
 class _ConfirmationForPassState extends ConsumerState<ConfirmationForPass> {
   void navigateToHome(BuildContext context) {
     Routemaster.of(context).pop();
-}
+  }
 
-void navigateToSuccess(BuildContext context) {
+  void navigateToSuccess(BuildContext context) {
     Routemaster.of(context).push('/success');
   }
 
   void addTicket() {
-    TicketModel ticket = ref.watch(ticketProvider.notifier).update((state) => state.copyWith(
-      createdAt: DateTime.now(),
-      price: 50,
-      source: 'PASS',
-      fullSeats: 1,
-    ));
+    TicketModel ticket =
+        ref.watch(ticketProvider.notifier).update((state) => state.copyWith(
+              createdAt: DateTime.now(),
+              price: 50,
+              source: 'PASS',
+              fullSeats: 1,
+            ));
     ref.read(ticketRepositoryProvider).addTicket(ticket);
   }
 
@@ -70,7 +68,6 @@ void navigateToSuccess(BuildContext context) {
                   Text("Your pass will be valid till 12:00 PM",
                       style: Theme.of(context).textTheme.titleSmall),
                   const SizedBox(height: 8),
-                  
                   PrimaryButton(
                       title: 'Pay',
                       onTapBtn: () {
@@ -96,6 +93,7 @@ void navigateToSuccess(BuildContext context) {
       ),
     );
   }
+
   late Razorpay _razorpay;
 
   void openCheckout(amount) async {
@@ -105,8 +103,14 @@ void navigateToSuccess(BuildContext context) {
     var options = {
       'key': 'rzp_test_XmpG9DGEHl7iYz',
       'name': 'E-vahak',
-      'description': '${ticket.source} to ${ticket.destination} ${ticket.fullSeats+ticket.halfSeats} Seats',
-      'prefill': {'contact': '7410189576', 'email': user?.email, 'route': '${ticket.source} to ${ticket.destination}' , 'number of seats':ticket.fullSeats+ticket.halfSeats },
+      'description':
+          '${ticket.source} to ${ticket.destination} ${ticket.fullSeats + ticket.halfSeats} Seats',
+      'prefill': {
+        'contact': '7410189576',
+        'email': user?.email,
+        'route': '${ticket.source} to ${ticket.destination}',
+        'number of seats': ticket.fullSeats + ticket.halfSeats
+      },
       "amount": amount,
       "timeout": 60,
       "external": {

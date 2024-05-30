@@ -5,6 +5,7 @@ import 'package:e_vahak/features/auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:routemaster/routemaster.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
@@ -25,9 +26,23 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     Routemaster.of(context).pop();
   }
 
-  void createUser(){
-    ref.read(authContollerProvider.notifier).createUserWithEmailAndPassword(emailController.text, passwordController.text, int.parse(adharnoController.text));
-    Routemaster.of(context).pop();
+  void createUser() {
+    try {
+      ref.read(authContollerProvider.notifier).createUserWithEmailAndPassword(
+          emailController.text,
+          passwordController.text,
+          int.parse(adharnoController.text));
+      Routemaster.of(context).pop();
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: e.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
   }
 
   @override
@@ -82,9 +97,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   },
                   child: Text('Already have an Account?',
                       style: Theme.of(context).textTheme.bodySmall)),
-              PrimaryButton(
-                  title: 'Sign Up',
-                  onTapBtn: ()=> createUser() ),
+              PrimaryButton(title: 'Sign Up', onTapBtn: () => createUser()),
               const SizedBox(
                 height: 20,
               ),
