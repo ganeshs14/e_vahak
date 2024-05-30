@@ -135,11 +135,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 }),
             PrimaryButton(
                 title: 'Book Tickets',
-                // onTapBtn: () {
-                //   scanQR();
-                // }),
-                onTapBtn: () => navigateToSelectSource(context)
-                ),
+                onTapBtn: () {
+                  scanQR();
+                }),
+            // onTapBtn: () => navigateToSelectSource(context)
             const SizedBox(
               height: 10,
             ),
